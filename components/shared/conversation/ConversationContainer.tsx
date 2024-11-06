@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import React from "react";
 
-type Props = React.PropsWithChildren<{}>;
+type Props = React.PropsWithChildren<Record<string, unknown>>;
 
 export default function ConversationContainer({ children }: Props) {
   return (
