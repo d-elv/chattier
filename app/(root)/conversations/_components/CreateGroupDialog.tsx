@@ -31,20 +31,15 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
 import { useMutationState } from "@/hooks/useMutationState";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "convex/react";
 import { ConvexError } from "convex/values";
-import { CirclePlus, User, X } from "lucide-react";
-import Link from "next/link";
-import { sourceMapsEnabled } from "process";
+import { CirclePlus, X } from "lucide-react";
 import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-
-type Props = {};
 
 const createGroupFormSchema = z.object({
   name: z.string().min(1, { message: "This field can't be empty" }),
@@ -54,7 +49,7 @@ const createGroupFormSchema = z.object({
     .min(1, { message: "You must select at least one friend" }),
 });
 
-export default function CreateGroupDialog(props: Props) {
+export default function CreateGroupDialog() {
   const friends = useQuery(api.friends.get);
 
   const { mutate: createGroup, pending } = useMutationState(
@@ -75,7 +70,7 @@ export default function CreateGroupDialog(props: Props) {
     return friends
       ? friends.filter((friend) => !members.includes(friend._id))
       : [];
-  }, [members.length, friends?.length]);
+  }, [members.length, friends?.length, friends, members]);
 
   const handleSubmit = async (
     values: z.infer<typeof createGroupFormSchema>
